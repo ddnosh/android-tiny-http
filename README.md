@@ -14,6 +14,7 @@ a tiny http library for android.
     1. Builder
 
 # Usage
+``` 
 TinyHttp.get()
                         .url("http://www.kuaidi100.com/query")
                         .param("type", "yuantong")
@@ -31,6 +32,6 @@ TinyHttp.get()
                             }
                         })
                         .execute();
-                        
+```
 # TODO
 1. support file transfer;
