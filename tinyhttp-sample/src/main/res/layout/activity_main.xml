@@ -21,10 +21,18 @@
         android:text="post"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/btn_post_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_post"
+        android:text="image"
+        android:textAllCaps="false" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/btn_post"
+        android:layout_below="@+id/btn_post_image"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="20dp"
         android:fillViewport="true"
@@ -39,5 +47,13 @@
             android:layout_height="wrap_content"
             android:text="Hello World!" />
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        app:srcCompat="@mipmap/ic_launcher" />
 
 </RelativeLayout>

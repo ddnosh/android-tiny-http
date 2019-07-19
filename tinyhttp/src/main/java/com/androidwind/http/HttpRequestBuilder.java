@@ -2,6 +2,9 @@ package com.androidwind.http;
 
 import android.text.TextUtils;
 
+import com.androidwind.http.callback.HttpCallBack;
+import com.androidwind.task.Priority;
+
 import java.util.HashMap;
 
 /**
@@ -16,6 +19,7 @@ public class HttpRequestBuilder {
 
     public String tag;
     public String url;
+    public Priority priority = Priority.NORMAL;
     public HttpCallBack httpCallBack;
     public HashMap<String, String> paramMap = new HashMap<>();
     public HashMap<String, String> bodyMap = new HashMap<>();
@@ -26,6 +30,11 @@ public class HttpRequestBuilder {
             throw new RuntimeException("http request url should not be empty!");
         }
         this.url = url;
+        return this;
+    }
+
+    public HttpRequestBuilder priority(Priority priority) {
+        this.priority = priority;
         return this;
     }
 

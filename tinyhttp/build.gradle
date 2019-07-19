@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 28
-
-
 
     defaultConfig {
         minSdkVersion 19
@@ -32,11 +31,60 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    compile files('libs/tinytask.jar')
+    compile 'com.androidwind:tinytask:2.0.0'
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
+publish {
+    userOrg = 'ddnosh'
+    groupId = 'com.androidwind'
+    artifactId = 'tinyhttp'
+    publishVersion = '1.0.0'
+    desc = 'A tiny http library for android.'
+    website = "https://github.com/ddnosh/android-tiny-http"
 }
+
+tasks.withType(Javadoc) {//防止编码问题
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+//打包任务
+task makeJar(type: Copy) {
+    //删除旧的jar包
+    delete 'build/libs/tinyhttp.jar'
+    //从哪里打包class文件
+    from('build/intermediates/packaged-classes/debug/')
+    //打包到jar后的目录结构
+    into('build/libs/')
+    //包含的jar包
+    include('classes.jar')
+    //去掉不需要打包的目录和文件
+    exclude('BuildConfig.class', 'R.class')
+    //去掉R$开头的文件
+    exclude { it.name.startsWith('R$'); }
+    //重命名jar包为tinyhttp
+    rename ('classes.jar', 'tinyhttp.jar')
+}
+
+makeJar.dependsOn(build)

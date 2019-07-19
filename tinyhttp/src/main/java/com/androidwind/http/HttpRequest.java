@@ -2,7 +2,8 @@ package com.androidwind.http;
 
 import android.text.TextUtils;
 
-import com.androidwind.task.AdvancedTask;
+import com.androidwind.task.SimpleTask;
+import com.androidwind.task.Task;
 import com.androidwind.task.TinyTaskExecutor;
 
 import java.io.BufferedReader;
@@ -31,14 +32,14 @@ public class HttpRequest {
     public void execute() {
         preCheck();
 
-        TinyTaskExecutor.execute(new AdvancedTask<HttpResponse>() {
+        TinyTaskExecutor.execute(new SimpleTask(builder.priority) {
             @Override
-            public HttpResponse doInBackground() {
+            public void run() {
                 HttpURLConnection conn = null;
                 try {
                     conn = getHttpURLConnection();
                     //check bodytype only when the request tag is post
-                    if ("POST".equals(builder.tag)) {
+                    if (TinyHttp.HTTP_REQUEST_TYPE_POST.equals(builder.tag)) {
                         conn.setRequestProperty("Content-Type", getBodyType());
                     }
                     //check head
@@ -47,7 +48,7 @@ public class HttpRequest {
                     }
                     conn.connect();
                     //check body only when the request tag is post
-                    if ("POST".equals(builder.tag)) {
+                    if (TinyHttp.HTTP_REQUEST_TYPE_POST.equals(builder.tag)) {
                         String body = getBody(builder.bodyMap);
                         if (!TextUtils.isEmpty(body)) {
                             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream(), "UTF-8"));
@@ -55,28 +56,14 @@ public class HttpRequest {
                             writer.close();
                         }
                     }
-                    return getResponse(conn);
-                } catch (Exception e) {
-                    return getResponseWithException(conn, e);
-                }
-            }
-
-            @Override
-            public void onSuccess(HttpResponse response) {
-                if (response != null) {
-                    if (response.code == HttpURLConnection.HTTP_OK) {
-                        if (response.rawData != null) {
-                            builder.httpCallBack.onSuccess(response.rawData);
-                        }
+                    if (builder.httpCallBack != null) {
+                        builder.httpCallBack.onHttpSuccess(getResponse(conn));
                     }
-                } else {
-                    builder.httpCallBack.onFail(response.exception);
+                } catch (Exception e) {
+                    if (builder.httpCallBack != null) {
+                        builder.httpCallBack.onHttpFail(getResponseWithException(conn, e));
+                    }
                 }
-            }
-
-            @Override
-            public void onFail(Throwable throwable) {
-
             }
         });
     }
@@ -165,40 +152,24 @@ public class HttpRequest {
      * get response data
      *
      * @param conn
-     *
      * @return
      */
     private HttpResponse getResponse(HttpURLConnection conn) {
-        if (builder.httpCallBack != null) {
-            //获取响应
-            try {
-                int code = conn.getResponseCode();
-                String message = conn.getResponseMessage();
-                String rawData = null;
-                if (HttpURLConnection.HTTP_OK == code) {
-                    rawData = getRawData(conn);
-                }
-                return new HttpResponse(code, message, rawData);
-            } catch (IOException e) {
-                e.printStackTrace();
+        //获取响应
+        try {
+            HttpResponse httpResponse = new HttpResponse();
+            httpResponse.code = conn.getResponseCode();
+            httpResponse.message = conn.getResponseMessage();
+            httpResponse.inputStream = conn.getInputStream();
+            httpResponse.errorStream = conn.getErrorStream();
+
+            if (httpResponse.code == HttpURLConnection.HTTP_OK) {
+                return httpResponse;
             }
+        } catch (IOException e) {
+            return getResponseWithException(conn, e);
         }
         return null;
-    }
-
-    private String getRawData(HttpURLConnection conn) throws IOException {
-        StringBuilder respRawDataBuild = new StringBuilder();
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } catch (Exception ex) {
-            reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
-        String tmpStr;
-        while ((tmpStr = reader.readLine()) != null) {
-            respRawDataBuild.append(tmpStr);
-        }
-        return respRawDataBuild.toString();
     }
 
     private HttpResponse getResponseWithException(HttpURLConnection conn, Exception e) {
