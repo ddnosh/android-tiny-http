@@ -38,7 +38,7 @@ publish {
     userOrg = 'ddnosh'
     groupId = 'com.androidwind'
     artifactId = 'tinyhttp'
-    publishVersion = '2.0.0'
+    publishVersion = '2.0.1'
     desc = 'A tiny http library for android.'
     website = "https://github.com/ddnosh/android-tiny-http"
 }
