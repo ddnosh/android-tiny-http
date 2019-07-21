@@ -12,6 +12,8 @@ public class HttpResponse {
 
     public String message;
 
+    public long contentLength;
+
     public InputStream inputStream;
 
     public InputStream errorStream;

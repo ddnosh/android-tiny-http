@@ -160,6 +160,7 @@ public class HttpRequest {
             HttpResponse httpResponse = new HttpResponse();
             httpResponse.code = conn.getResponseCode();
             httpResponse.message = conn.getResponseMessage();
+            httpResponse.contentLength = conn.getContentLength();
             httpResponse.inputStream = conn.getInputStream();
             httpResponse.errorStream = conn.getErrorStream();
 

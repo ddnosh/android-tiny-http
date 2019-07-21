@@ -29,10 +29,18 @@
         android:text="image"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/btn_post_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_post_image"
+        android:text="file"
+        android:textAllCaps="false" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/btn_post_image"
+        android:layout_below="@+id/btn_post_file"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="20dp"
         android:fillViewport="true"

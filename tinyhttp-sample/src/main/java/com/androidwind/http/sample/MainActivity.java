@@ -9,13 +9,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.androidwind.http.HttpUtil;
+import com.androidwind.http.callback.FileHttpCallBack;
 import com.androidwind.http.callback.HttpCallBack;
 import com.androidwind.http.TinyHttp;
 import com.androidwind.http.callback.ImageHttpCallBack;
 import com.androidwind.http.callback.StringHttpCallBack;
 import com.androidwind.task.Priority;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnPost.setOnClickListener(this);
         Button btnPostImage = findViewById(R.id.btn_post_image);
         btnPostImage.setOnClickListener(this);
+        Button btnPostFile = findViewById(R.id.btn_post_file);
+        btnPostFile.setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +96,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             @Override
                             public void OnMainSuccess(Bitmap bitmap) {
                                 ivConsole.setImageBitmap(bitmap);
+                            }
+
+                            @Override
+                            public void OnMainFail(String errorMessage) {
+
+                            }
+                        }).execute();
+                break;
+            case R.id.btn_post_file:
+                TinyHttp.get()
+                        .url("https://ce7ce9c885b5c04b6771ea454e096946.dd.cdntips.com/imtt.dd.qq.com/16891/apk/A8E429783EA97261455968A16F0DF44C.apk")
+                        .callback(new FileHttpCallBack(HttpUtil.getLogDir(getApplicationContext()), System.currentTimeMillis() + "") {
+                            @Override
+                            public void onMainProgress(float progress, long total) {
+                                Log.i(TAG, "downloaded percent = " + progress + ", total size = " + total);
+                            }
+
+                            @Override
+                            public void OnMainSuccess(File file) {
+                                Toast.makeText(MainActivity.this, file.getName() + "has already downloaded!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
