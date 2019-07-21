@@ -1,4 +1,5 @@
 # android-tiny-task
+[![Download](https://api.bintray.com/packages/ddnosh/maven/tinyhttp/images/download.svg) ](https://bintray.com/ddnosh/maven/tinyhttp/_latestVersion)  
 a tiny http library for android.
 
 # Solution
