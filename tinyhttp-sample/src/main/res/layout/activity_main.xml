@@ -21,19 +21,30 @@
         android:text="post"
         android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_post_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_image"
         android:layout_below="@+id/btn_post"
-        android:text="image"
-        android:textAllCaps="false" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_post_image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="image1"
+            android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btn_post_image2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="image2"
+            android:textAllCaps="false" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_post_file"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_post_image"
+        android:layout_below="@+id/ll_image"
         android:text="file"
         android:textAllCaps="false" />
 

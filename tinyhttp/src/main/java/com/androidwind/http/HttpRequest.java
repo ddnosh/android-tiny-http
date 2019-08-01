@@ -38,12 +38,10 @@ public class HttpRequest {
                 HttpURLConnection conn = null;
                 try {
                     conn = getHttpURLConnection();
-                    //check bodytype only when the request tag is post
-                    if (TinyHttp.HTTP_REQUEST_TYPE_POST.equals(builder.tag)) {
-                        conn.setRequestProperty("Content-Type", getBodyType());
-                    }
+                    conn.setRequestProperty("Content-Type", getBodyType());
+                    conn.addRequestProperty("Connection", "Keep-Alive");
                     //check head
-                    if (builder.headMap != null) {
+                    if (builder.headMap != null && builder.headMap.size() > 0) {
                         getHeader(conn, builder.headMap);
                     }
                     conn.connect();
@@ -81,9 +79,12 @@ public class HttpRequest {
         URL url = new URL(getUrl());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod(builder.tag);
-        conn.setDoOutput(true);
+        // conn.setDoOutput(true);
         conn.setDoInput(true);
         conn.setUseCaches(false);
+        conn.setReadTimeout(5 * 1000);
+        conn.setConnectTimeout(5 * 1000);
+        conn.setInstanceFollowRedirects(true);
         return conn;
     }
 

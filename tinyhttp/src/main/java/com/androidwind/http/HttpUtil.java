@@ -16,7 +16,7 @@ public class HttpUtil {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             logDir = Environment.getExternalStorageDirectory().getPath();
         } else {
-            logDir = context.getFilesDir().getPath();
+            logDir = context.getCacheDir().getPath();
         }
         return logDir + File.separator + "Http";
     }

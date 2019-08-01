@@ -1,6 +1,7 @@
 package com.androidwind.http.sample;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +15,16 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.androidwind.http.HttpUtil;
 import com.androidwind.http.callback.FileHttpCallBack;
-import com.androidwind.http.callback.HttpCallBack;
 import com.androidwind.http.TinyHttp;
+import com.androidwind.http.callback.BitmapHttpCallBack;
 import com.androidwind.http.callback.ImageHttpCallBack;
 import com.androidwind.http.callback.StringHttpCallBack;
 import com.androidwind.task.Priority;
+import com.androidwind.task.Task;
+import com.androidwind.task.TinyTaskExecutor;
 
 import java.io.File;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -40,8 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnGet.setOnClickListener(this);
         Button btnPost = findViewById(R.id.btn_post);
         btnPost.setOnClickListener(this);
-        Button btnPostImage = findViewById(R.id.btn_post_image);
-        btnPostImage.setOnClickListener(this);
+        Button btnPostImage1 = findViewById(R.id.btn_post_image1);
+        btnPostImage1.setOnClickListener(this);
+        Button btnPostImage2 = findViewById(R.id.btn_post_image2);
+        btnPostImage2.setOnClickListener(this);
         Button btnPostFile = findViewById(R.id.btn_post_file);
         btnPostFile.setOnClickListener(this);
     }
@@ -89,10 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         })
                         .execute();
                 break;
-            case R.id.btn_post_image:
+            case R.id.btn_post_image1:
                 TinyHttp.get()
-                        .url("https://www.baidu.com/img/bd_logo1.png")
-                        .callback(new ImageHttpCallBack() {
+                        .url("https://abc.2008php.com/2013_Website_appreciate/2013-04-11/20130411233130.jpg")
+                        .callback(new BitmapHttpCallBack(HttpUtil.getLogDir(getApplicationContext())) {
                             @Override
                             public void OnMainSuccess(Bitmap bitmap) {
                                 ivConsole.setImageBitmap(bitmap);
@@ -104,10 +110,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         }).execute();
                 break;
+            case R.id.btn_post_image2:
+                TinyHttp.get()
+                        .url("https://www.baidu.com/img/bd_logo1.png")
+                        .callback(new ImageHttpCallBack() {
+                            @Override
+                            public void OnMainSuccess(final InputStream inputStream) {
+                                TinyTaskExecutor.execute(new Task<Bitmap>() {
+                                    @Override
+                                    public Bitmap doInBackground() {
+                                        return BitmapFactory.decodeStream(inputStream);
+                                    }
+
+                                    @Override
+                                    public void onSuccess(Bitmap bitmap) {
+                                        ivConsole.setImageBitmap(bitmap);
+                                    }
+
+                                    @Override
+                                    public void onFail(Throwable throwable) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void OnMainFail(String errorMessage) {
+
+                            }
+                        }).execute();
+                break;
             case R.id.btn_post_file:
                 TinyHttp.get()
                         .url("https://ce7ce9c885b5c04b6771ea454e096946.dd.cdntips.com/imtt.dd.qq.com/16891/apk/A8E429783EA97261455968A16F0DF44C.apk")
-                        .callback(new FileHttpCallBack(HttpUtil.getLogDir(getApplicationContext()), System.currentTimeMillis() + "") {
+                        .callback(new FileHttpCallBack(HttpUtil.getLogDir(getApplicationContext()), "TinyHttp[file]_" + System.currentTimeMillis()) {
                             @Override
                             public void onMainProgress(float progress, long total) {
                                 Log.i(TAG, "downloaded percent = " + progress + ", total size = " + total);
