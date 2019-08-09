@@ -31,14 +31,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    compile 'com.androidwind:tinytask:2.0.0'
+    api 'com.androidwind:tinytask:2.0.0'
 }
 
 publish {
     userOrg = 'ddnosh'
     groupId = 'com.androidwind'
     artifactId = 'tinyhttp'
-    publishVersion = '2.0.2'
+    publishVersion = '2.0.3'
     desc = 'A tiny http library for android.'
     website = "https://github.com/ddnosh/android-tiny-http"
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.androidwind.http.HttpUtil;
+import com.androidwind.http.callback.CacheMode;
 import com.androidwind.http.callback.FileHttpCallBack;
 import com.androidwind.http.TinyHttp;
 import com.androidwind.http.callback.BitmapHttpCallBack;
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_post_image1:
                 TinyHttp.get()
                         .url("https://abc.2008php.com/2013_Website_appreciate/2013-04-11/20130411233130.jpg")
-                        .callback(new BitmapHttpCallBack(HttpUtil.getLogDir(getApplicationContext())) {
+                        .callback(new BitmapHttpCallBack() {
                             @Override
                             public void OnMainSuccess(Bitmap bitmap) {
                                 ivConsole.setImageBitmap(bitmap);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void OnMainFail(String errorMessage) {
 
                             }
-                        }).execute();
+                        }.outputDir(HttpUtil.getLogDir(getApplicationContext())).cache(CacheMode.DISK)).execute();
                 break;
             case R.id.btn_post_image2:
                 TinyHttp.get()

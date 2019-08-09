@@ -19,4 +19,6 @@ public class HttpResponse {
     public InputStream errorStream;
 
     public Exception exception;
+
+    public String url;
 }

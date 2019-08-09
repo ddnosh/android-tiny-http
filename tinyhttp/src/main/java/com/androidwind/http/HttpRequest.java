@@ -164,6 +164,7 @@ public class HttpRequest {
             httpResponse.contentLength = conn.getContentLength();
             httpResponse.inputStream = conn.getInputStream();
             httpResponse.errorStream = conn.getErrorStream();
+            httpResponse.url = builder.url;
 
             if (httpResponse.code == HttpURLConnection.HTTP_OK) {
                 return httpResponse;
