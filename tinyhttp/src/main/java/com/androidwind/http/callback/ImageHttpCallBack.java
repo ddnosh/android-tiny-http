@@ -10,7 +10,7 @@ import java.io.InputStream;
  */
 public abstract class ImageHttpCallBack extends BaseHttpCallBack<InputStream> {
     @Override
-    public InputStream OnBackground(HttpResponse httpResponse) {
+    public InputStream onBackground(HttpResponse httpResponse) {
         return httpResponse.inputStream;
     }
 }

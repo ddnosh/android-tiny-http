@@ -9,19 +9,19 @@ import com.androidwind.task.TinyTaskExecutor;
  */
 public abstract class BaseHttpCallBack<T> implements HttpCallBack {
 
-    public abstract T OnBackground(HttpResponse httpResponse);
+    public abstract T onBackground(HttpResponse httpResponse);
 
-    public abstract void OnMainSuccess(T t);
+    public abstract void onMainSuccess(T t);
 
-    public abstract void OnMainFail(String errorMessage);
+    public abstract void onMainFail(String errorMessage);
 
     @Override
     public void onHttpSuccess(HttpResponse httpResponse) {
-        final T t = OnBackground(httpResponse);
+        final T t = onBackground(httpResponse);
         TinyTaskExecutor.postToMainThread(new Runnable() {
             @Override
             public void run() {
-                OnMainSuccess(t);
+                onMainSuccess(t);
             }
         });
     }
@@ -32,7 +32,7 @@ public abstract class BaseHttpCallBack<T> implements HttpCallBack {
         TinyTaskExecutor.postToMainThread(new Runnable() {
             @Override
             public void run() {
-                OnMainFail(errorMessage);
+                onMainFail(errorMessage);
             }
         });
     }

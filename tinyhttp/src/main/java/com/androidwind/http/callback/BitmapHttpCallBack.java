@@ -35,7 +35,7 @@ public abstract class BitmapHttpCallBack extends BaseHttpCallBack<Bitmap> {
     }
 
     @Override
-    public Bitmap OnBackground(HttpResponse httpResponse) {
+    public Bitmap onBackground(HttpResponse httpResponse) {
         if (cacheMode == CacheMode.DISK) {
             return cacheWithFile(httpResponse.inputStream, httpResponse.url);
         } else {

@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
  */
 public abstract class StringHttpCallBack extends BaseHttpCallBack<String> {
     @Override
-    public String OnBackground(HttpResponse httpResponse) {
+    public String onBackground(HttpResponse httpResponse) {
         try {
             StringBuilder respRawDataBuild = new StringBuilder();
             BufferedReader reader;

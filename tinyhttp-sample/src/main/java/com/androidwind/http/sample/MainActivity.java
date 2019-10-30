@@ -65,13 +65,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .param("postid", "803977139201993050")
                         .callback(new StringHttpCallBack() {
                             @Override
-                            public void OnMainSuccess(String response) {
+                            public void onMainSuccess(String response) {
                                 TestBean bean = toObject(response, TestBean.class);
                                 tvConsole.setText(bean.toString());
                             }
 
                             @Override
-                            public void OnMainFail(String errorMessage) {
+                            public void onMainFail(String errorMessage) {
 
                             }
                         })
@@ -84,13 +84,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .callback(new StringHttpCallBack() {
 
                             @Override
-                            public void OnMainSuccess(String response) {
+                            public void onMainSuccess(String response) {
                                 TestBean bean = toObject(response, TestBean.class);
                                 tvConsole.setText(bean.toString());
                             }
 
                             @Override
-                            public void OnMainFail(String errorMessage) {
+                            public void onMainFail(String errorMessage) {
 
                             }
                         })
@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .url("https://abc.2008php.com/2013_Website_appreciate/2013-04-11/20130411233130.jpg")
                         .callback(new BitmapHttpCallBack() {
                             @Override
-                            public void OnMainSuccess(Bitmap bitmap) {
+                            public void onMainSuccess(Bitmap bitmap) {
                                 ivConsole.setImageBitmap(bitmap);
                             }
 
                             @Override
-                            public void OnMainFail(String errorMessage) {
+                            public void onMainFail(String errorMessage) {
 
                             }
                         }.outputDir(HttpUtil.getLogDir(getApplicationContext())).cache(CacheMode.DISK)).execute();
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .url("https://www.baidu.com/img/bd_logo1.png")
                         .callback(new ImageHttpCallBack() {
                             @Override
-                            public void OnMainSuccess(final InputStream inputStream) {
+                            public void onMainSuccess(final InputStream inputStream) {
                                 TinyTaskExecutor.execute(new Task<Bitmap>() {
                                     @Override
                                     public Bitmap doInBackground() {
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                             @Override
-                            public void OnMainFail(String errorMessage) {
+                            public void onMainFail(String errorMessage) {
 
                             }
                         }).execute();
@@ -151,12 +151,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
 
                             @Override
-                            public void OnMainSuccess(File file) {
+                            public void onMainSuccess(File file) {
                                 Toast.makeText(MainActivity.this, file.getName() + "has already downloaded!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
-                            public void OnMainFail(String errorMessage) {
+                            public void onMainFail(String errorMessage) {
 
                             }
                         }).execute();

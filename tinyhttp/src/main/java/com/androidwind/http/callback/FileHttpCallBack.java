@@ -25,7 +25,7 @@ public abstract class FileHttpCallBack extends BaseHttpCallBack<File> {
     public abstract void onMainProgress(float progress, long total);
 
     @Override
-    public File OnBackground(HttpResponse httpResponse) {
+    public File onBackground(HttpResponse httpResponse) {
         InputStream is = null;
         byte[] buf = new byte[1024 * 8];
         int len = 0;
